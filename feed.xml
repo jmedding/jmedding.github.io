@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>5am Coder</title>
+    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</description>
+    <link>http://www.medding.me/</link>
+    <atom:link href="http://www.medding.me/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 02 Aug 2017 22:51:12 +0200</pubDate>
+    <lastBuildDate>Wed, 02 Aug 2017 22:51:12 +0200</lastBuildDate>
+    <generator>Jekyll v2.5.3</generator>
+    
+      <item>
+        <title>Welcome to Jekyll!</title>
+        <description>&lt;p&gt;You’ll find this post in your &lt;code&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+
+&lt;p&gt;To add new posts, simply add a file in the &lt;code&gt;_posts&lt;/code&gt; directory that follows the convention &lt;code&gt;YYYY-MM-DD-name-of-post.ext&lt;/code&gt; and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.&lt;/p&gt;
+
+&lt;p&gt;Jekyll also offers powerful support for code snippets:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;Hi, &lt;/span&gt;&lt;span class=&quot;si&quot;&gt;#{&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;print_hi&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Tom&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;#=&amp;gt; prints &amp;#39;Hi, Tom&amp;#39; to STDOUT.&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 02 Aug 2017 22:16:42 +0200</pubDate>
+        <link>http://www.medding.me/jekyll/update/2017/08/02/welcome-to-jekyll.html</link>
+        <guid isPermaLink="true">http://www.medding.me/jekyll/update/2017/08/02/welcome-to-jekyll.html</guid>
+        
+        
+        <category>jekyll</category>
+        
+        <category>update</category>
+        
+      </item>
+    
+      <item>
+        <title>Elm Lang and Mouse Events</title>
+        <description>&lt;p&gt;Well, it’s been a while.  I decided that Go wasn’t my cup of tea. It seemed like I was working to hard to get some things done that felt like they should have been easier.  I guess my comfort zone is in the higher-level languages.  But I’m still attracted to efficient and performant solutions, which Ruby is not.  Lately, I have been working with Elixir and Elm.  Elixir is very nice. OTP just makes sense, although my brain is still trying to grok the medium and high complexity design paterns.  Elm is weird. It’s very different than other languages that I have worked with, but when  it clicks, it clicks although some times that takes a lot of thinking and struggling. One recent example of this has been handling mouse events.  I want to highlight an  SVG element when the mouse is over it and be able to drag it around.  In this post, I will try explain some of the things that I struggled with so that I don’t forget it all and that maybe others can save a few days on their Elm journey as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;htmlevents-for-the-mouse&quot;&gt;Html.Events for the Mouse&lt;/h2&gt;
+
+&lt;p&gt;The Elm Architecture tutorial jumps right into mouse interactions with it’s &lt;a href=&quot;https://guide.elm-lang.org/architecture/user_input/buttons.html&quot;&gt;button&lt;/a&gt; tutorial.  Here, the Html.Events package allows us to catch mouse events related to HTML nodes.&lt;/p&gt;
+
+&lt;p&gt;button.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+  div []
+    [ button [ Html.Events.onClick Decrement ] [ text &amp;quot;-&amp;quot; ]
+    , div [] [ text (toString model) ]
+    ]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;The &lt;code&gt;Html.Events.onClick&lt;/code&gt; function takes a Msg as an input and produces an &lt;code&gt;Html.Attribute Msg&lt;/code&gt;, satisfying the type requirements for an Html node’s first list argument.  In this case, &lt;code&gt;onClick&lt;/code&gt;’s &lt;code&gt;Msg&lt;/code&gt; is &lt;code&gt;Decrement&lt;/code&gt;.  So when the button is clicked, the update function receives the &lt;code&gt;Decrement&lt;/code&gt; message.  Here is the whole code, including an increment button:&lt;/p&gt;
+
+&lt;p&gt;button.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+
+
+main =
+  Html.beginnerProgram { model = model, view = view, update = update }
+
+
+-- MODEL
+
+type alias Model = Int
+
+model : Model
+model =
+  0
+
+
+-- UPDATE
+
+type Msg = Decrement
+
+update : Msg -&amp;gt; Model -&amp;gt; Model
+update msg model =
+  case msg of
+    Increment -&amp;gt;
+      model + 1
+
+    Decrement -&amp;gt;
+      model - 1
+
+
+-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+  div []
+    [ button [ onClick Decrement ] [ text &amp;quot;-&amp;quot; ]
+    , div [] [ text (toString model) ]
+    , button [ onClick Increment ] [ text &amp;quot;+&amp;quot; ]
+    ]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Using the &lt;code&gt;Html.Events&lt;/code&gt;’s mouse event handlers is the simplest way to work with mouse events.  It covers a lot of use cases but does have some limitations, mainly that there is no additional information passed to the &lt;code&gt;update&lt;/code&gt; function when the object is clicked.  We just know that something was clicked, nothing more.  That means that the everything has to be hard-coded. Each unique button needs a unique message, which must be specifically handled in the &lt;code&gt;update&lt;/code&gt; function. If we want to DRY up our code or catch mouse events from dynamically generated HTML elements then we need something else.&lt;/p&gt;
+
+&lt;h2 id=&quot;htmlevents-with-data&quot;&gt;Html.Events with data&lt;/h2&gt;
+
+&lt;p&gt;Let’s use the same program as before, but make it a bit more DRY. In this case, instead of having unique &lt;code&gt;Increment&lt;/code&gt; and &lt;code&gt;Decrement&lt;/code&gt; messages, we will define only a &lt;code&gt;Change&lt;/code&gt; message and tag it with an &lt;code&gt;Int&lt;/code&gt; value.  Now when we use &lt;code&gt;onClick&lt;/code&gt; we can use a message like &lt;code&gt;Change 2&lt;/code&gt; to increment by 2 or &lt;code&gt;Change -1&lt;/code&gt; to decrement by 1.  Here is the code:&lt;/p&gt;
+
+&lt;p&gt;mouse_with_data.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Html, button, div, text)
+import Html.Events exposing (onClick)
+
+
+main =
+  Html.beginnerProgram { model = model, view = view, update = update }
+
+
+-- MODEL
+
+type alias Model = Int
+
+model : Model
+model =
+  0
+
+
+-- UPDATE
+
+type Msg = Change Int
+
+update : Msg -&amp;gt; Model -&amp;gt; Model
+update msg model =
+  case msg of
+    Change amount -&amp;gt;
+      model + 1 * amount
+
+-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+  div []
+    [ button [ onClick (Change -1) ] [ text &amp;quot;-&amp;quot; ]
+    , div [] [ text (toString model) ]
+    , button [ onClick (Change 2) ] [ text &amp;quot;+&amp;quot; ]
+    ]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Now we just need to handle a single &lt;code&gt;Msg&lt;/code&gt;.  One note is that we had to wrap the who message in parentheses so that it appears as a single element to the &lt;code&gt;onClick&lt;/code&gt; function.  This is the classic Elm Architecture at work.  We click on something, it fires off a &lt;code&gt;Msg&lt;/code&gt;, which is passed to our &lt;code&gt;update&lt;/code&gt; function, which is where we can change the model, which is then passed to the view, which updates the DOM.  Recognizing this pattern and understanding it is the key to Elm.  Since we can define our own &lt;code&gt;Msg&lt;/code&gt; types, we can theoretically pass any data that is available, at the time of the event to the &lt;code&gt;update&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;h2 id=&quot;htmlevents-with-dom-event-data&quot;&gt;HTML.Events with DOM event data&lt;/h2&gt;
+
+&lt;p&gt;In many instances, it would be interesting to pass some of the mouse event information to our &lt;code&gt;update&lt;/code&gt; function. Let’s look at the source code for &lt;code&gt;Html.Events.onClick&lt;/code&gt; to see what is going on, under the hood.&lt;/p&gt;
+
+&lt;p&gt;Html/Events.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Attribute)
+import Json.Decode as Json
+import VirtualDom
+
+onClick : msg -&amp;gt; Attribute msg
+onClick msg =
+on &amp;quot;click&amp;quot; (Json.succeed msg)
+
+on : String -&amp;gt; Json.Decoder msg -&amp;gt; Attribute msg
+on =
+VirtualDom.on&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;We see that &lt;code&gt;Html.Events.onClick&lt;/code&gt; is calling the &lt;code&gt;on&lt;/code&gt; function, which takes a string that represents the event name in Javascript’s &lt;code&gt;addEventListener&lt;/code&gt; function and a &lt;code&gt;Json.Decoder&lt;/code&gt; tagged with a &lt;code&gt;msg&lt;/code&gt; as the second argument.  The &lt;code&gt;onClick&lt;/code&gt; function passes the String “click” and the &lt;code&gt;Json.Decoder.succeed&lt;/code&gt; function tagged with the &lt;code&gt;msg&lt;/code&gt; that we passed to &lt;code&gt;onClick&lt;/code&gt;.  The &lt;code&gt;Json.Decoder.succeed&lt;/code&gt; function doesn’t actually decode anything.  It simply “succeeds” without parsing anything that was submitted to the decoder, finally emitting the &lt;code&gt;msg&lt;/code&gt; that was given as the argument.  We can see from this, that we will never get any of the typical Javascript &lt;code&gt;event&lt;/code&gt; data by using onClick.&lt;/p&gt;
+
+&lt;p&gt;If we want to pass any data from the DOM &lt;code&gt;click&lt;/code&gt; event to our update function we will have to use the &lt;code&gt;Html.Events.on&lt;/code&gt; function directly.  This is more complicated than just using &lt;code&gt;Html.Events.onClick&lt;/code&gt; but it should be manageable if we can break it down.  The &lt;code&gt;VirtualDom.on&lt;/code&gt; function will send the DOM event data to the Json.Decoder that we gave it.  We need to (1) create a decoder that will extract the bit that we need and (2) define a message that can be tagged with that data and finally (3) tag the message wit the decoded data.  In the example below, we extract the event target’s ID and attach it to the &lt;code&gt;Click&lt;/code&gt; message.  Remember, &lt;code&gt;Click&lt;/code&gt; is a constructor function for the &lt;code&gt;Click String&lt;/code&gt; message, so calling &lt;code&gt;Click &quot;me&quot;&lt;/code&gt; will create a &lt;code&gt;Msg&lt;/code&gt; of type &lt;code&gt;Click&lt;/code&gt; that is tagged with the String &lt;code&gt;&quot;me&quot;&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;mouse_event_payload_data.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Html, button, div, text)
+import Html.Attributes exposing ( id )
+import Html.Events
+import Json.Decode
+
+
+main =
+  Html.beginnerProgram { model = model, view = view, update = update }
+
+
+-- MODEL
+
+type alias Model = String
+
+model : Model
+model =
+  &amp;quot;empty&amp;quot;
+
+
+-- UPDATE
+
+type Msg = Click String
+
+update : Msg -&amp;gt; Model -&amp;gt; Model
+update msg model =
+  case msg of
+    Click value -&amp;gt;
+      value ++ &amp;quot; clicked&amp;quot;
+
+-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+  div []
+    [ button [ id &amp;quot;A&amp;quot;, customOnClick ] [ text &amp;quot;A&amp;quot; ]
+    , div [] [ text (toString model) ]
+    , button [ id &amp;quot;B&amp;quot;, customOnClick ] [ text &amp;quot;B&amp;quot; ]
+    ]
+
+customOnClick : Html.Attribute Msg
+customOnClick =
+  let
+    
+    decoder = Json.Decode.map Click (Json.Decode.at [&amp;quot;target&amp;quot;, &amp;quot;id&amp;quot;] Json.Decode.string) -- String -&amp;gt; Msg
+      
+  in
+      
+    Html.Events.on &amp;quot;click&amp;quot; decoder&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;One gotcha that you might face is when the decoder fails to successfully parse the event’s json value. When this happens, the process dies silently and it appears as if the click was not handled. There is no sign that anything changed because of the click or even an error in the browser’s console. For instance, if I had used the following:&lt;/p&gt;
+
+&lt;p&gt;mouse_event_payload_data.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;customOnClick : Html.Attribute Msg
+customOnClick =
+  let
+    
+    decoder = Json.Decode.map Click (Json.Decode.at [&amp;quot;target&amp;quot;, &amp;quot;does_not_exist&amp;quot;] Json.Decode.string) -- String -&amp;gt; Msg
+      
+  in
+      
+    Html.Events.on &amp;quot;click&amp;quot; decoder&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;clicking on the buttons would have no effect.  One way to avoid this is to expand the decoder so that it sends a helpful message incase the json was not able to be parsed.&lt;/p&gt;
+
+&lt;p&gt;mouse_event_payload_data.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;customOnClick : Html.Attribute Msg
+customOnClick =
+  let
+    
+    decoder = 
+      Json.Decode.oneOf
+      [ Json.Decode.map Click (Json.Decode.at [&amp;quot;target&amp;quot;, &amp;quot;idd&amp;quot;] Json.Decode.string) -- String -&amp;gt; Msg
+      , Json.Decode.succeed (Click &amp;quot;Failed&amp;quot;)
+      ] 
+      
+  in
+      
+    Html.Events.on &amp;quot;click&amp;quot; decoder&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;In this case, if the first decoder in the list fails, then the second one will always succeed issuing the &lt;code&gt;Click &quot;Failed&quot;&lt;/code&gt; message.  If you aren’t sure ŵhat information is available in the Event’s json payload, you can use &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_event_listeners&quot;&gt;this event viewer&lt;/a&gt; in the browser’s Inspector to set a breakpoint in the event handler and then view the actual event object in the browser’s console.  This is extremely useful if you are not intimately familiar with the event objects.&lt;/p&gt;
+
+&lt;h2 id=&quot;making-it-work-with-svg&quot;&gt;Making it work with SVG&lt;/h2&gt;
+
+&lt;p&gt;Elm has an &lt;code&gt;Svg.Events&lt;/code&gt; module very similar to &lt;code&gt;Html.Events&lt;/code&gt;. Here it is in action.&lt;/p&gt;
+
+&lt;p&gt;mouse_and_svg.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Html, button, div, text)
+import Html.Events
+import Json.Decode
+import Svg exposing (svg, rect)
+import Svg.Attributes exposing (..)
+
+main =
+  Html.beginnerProgram { model = model, view = view, update = update }
+
+
+-- MODEL
+
+type alias Model = String
+
+model : Model
+model =
+  &amp;quot;empty&amp;quot;
+
+
+-- UPDATE
+
+type Msg = Click String
+
+update : Msg -&amp;gt; Model -&amp;gt; Model
+update msg model =
+  case msg of
+    Click value -&amp;gt;
+      value ++ &amp;quot; clicked&amp;quot;
+
+-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+  div []
+    [ svg
+        [ width &amp;quot;400&amp;quot;
+        , height &amp;quot;100&amp;quot;
+        , viewBox &amp;quot;0 0 400 100&amp;quot;
+        ]
+        [ rect
+            [ customOnClick 
+            , id &amp;quot;C&amp;quot;
+            , width &amp;quot;100&amp;quot;
+            , height &amp;quot;050&amp;quot;
+            , x &amp;quot;0&amp;quot;
+            , y &amp;quot;0&amp;quot;
+            , fill &amp;quot;#000&amp;quot;
+            , cursor &amp;quot;pointer&amp;quot;
+            ]
+            []
+        ]
+      , div [] [ text model ]
+    ]
+
+customOnClick : Html.Attribute Msg
+customOnClick =
+  let
+    
+    decoder = 
+      Json.Decode.oneOf
+      [ Json.Decode.map Click (Json.Decode.at [&amp;quot;target&amp;quot;, &amp;quot;id&amp;quot;] Json.Decode.string) -- String -&amp;gt; Msg
+      , Json.Decode.succeed (Click &amp;quot;Failed&amp;quot;)
+      ]  
+      
+  in
+      
+    Html.Events.on &amp;quot;click&amp;quot; decoder&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is very similar to handling Html. In fact, SVG.Events.on also calls VirtualDom.on, so the two can be used interchangeably. One thing to remember is that the data in the click event for SVG nodes can be different than those for Html, so be sure to verify the event objects when things do not work as expected.&lt;/p&gt;
+
+&lt;h2 id=&quot;when-all-else-fails-the-elm-langmouse-module&quot;&gt;When all else fails, the Elm-lang/Mouse module&lt;/h2&gt;
+&lt;p&gt;Elm also offers the &lt;code&gt;Mouse&lt;/code&gt; module, which lets you subscribe to mouse &lt;code&gt;clicks&lt;/code&gt;, &lt;code&gt;ups&lt;/code&gt;, &lt;code&gt;downs&lt;/code&gt; and &lt;code&gt;moves&lt;/code&gt;.  We need this module to make our SVG element draggable because there is no way to detect mouse movement after the &lt;code&gt;mousedown&lt;/code&gt; event using just &lt;code&gt;Svg.Events&lt;/code&gt;.  In the code below I have extended the model  to include a &lt;code&gt;Position&lt;/code&gt; and a &lt;code&gt;Maybe Drag&lt;/code&gt;. Initially, &lt;code&gt;model.drag&lt;/code&gt; is &lt;code&gt;Nothing&lt;/code&gt;, but when you click on the SVG Rectangle, it’s &lt;code&gt;customOnMouseDown&lt;/code&gt; listener will cause a &lt;code&gt;Press&lt;/code&gt; message tagged with the current mouse position to be sent to the &lt;code&gt;update&lt;/code&gt; function, which will then create a &lt;code&gt;Drag&lt;/code&gt; object and add it to the model. Once the model actually has a &lt;code&gt;Drag&lt;/code&gt;, this will trigger two subscriptions. One for &lt;code&gt;Mouse.moves&lt;/code&gt; and one for &lt;code&gt;Mouse.ups&lt;/code&gt;.  &lt;code&gt;Mouse.moves&lt;/code&gt; will update the &lt;code&gt;currentPos&lt;/code&gt; attribute of  &lt;code&gt;model.drag&lt;/code&gt;, which is used to offset the location of the Rectangle in the &lt;code&gt;view&lt;/code&gt; function.  When the &lt;code&gt;Mouse.ups&lt;/code&gt; event occurs, a &lt;code&gt;Release&lt;/code&gt; message is sent to &lt;code&gt;update&lt;/code&gt;, where the &lt;code&gt;model.position&lt;/code&gt; is updated to reflect the mouse move and &lt;code&gt;model.drag&lt;/code&gt; is set to &lt;code&gt;Nothing&lt;/code&gt;, which has the effect of removing the two mouse subscriptions.  It is a good practive to only subscribe to &lt;code&gt;Mouse.moves&lt;/code&gt; when needed, otherwise you will have to handle a lot of events for no gain, potential impacting app performance.&lt;/p&gt;
+
+&lt;p&gt;svg_drag.elm:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;import Html exposing (Html, button, div, text)
+import Html.Events
+import Json.Decode
+import Svg exposing (svg, rect)
+import Svg.Attributes exposing (..)
+import Mouse
+
+main =
+  Html.program { init = init, view = view, update = update, subscriptions = subscriptions }
+
+
+-- MODEL
+
+type alias Model = 
+  { drag : Maybe Drag
+  , pos : Position
+  }
+
+init : (Model, Cmd Msg)
+init = ( Model Nothing (Position 0 0), Cmd.none )
+
+type alias Position =
+  { x : Int
+  , y : Int
+  }
+
+type alias Drag = 
+  { startPos : Position
+  , currentPos : Position
+  }
+
+-- UPDATE
+
+type Msg = 
+  Press Position |
+  Release Position |
+  Move Position
+
+update : Msg -&amp;gt; Model -&amp;gt; (Model, Cmd msg)
+update msg model =
+  case msg of
+    Press pos -&amp;gt;
+      ({model | drag = Just (Drag pos pos)}, Cmd.none)
+
+    Release pos -&amp;gt;
+      let
+        newPos = getPosition model
+      in
+          
+      ( { model | pos = newPos, drag = Nothing }, Cmd.none )
+
+    Move pos -&amp;gt;
+      let
+        newDrag = case model.drag of
+          Nothing -&amp;gt;    -- Should not happen
+            model.drag
+          Just drag -&amp;gt;
+            Just { drag | currentPos = pos }
+          
+      in
+        ( { model | drag = newDrag}, Cmd.none )
+
+
+
+-- VIEW
+
+view : Model -&amp;gt; Html Msg
+view model =
+
+  let 
+    pos = getPosition model
+
+  in
+    div []
+      [ svg
+          [ width &amp;quot;400&amp;quot;
+          , height &amp;quot;100&amp;quot;
+          , viewBox &amp;quot;0 0 400 100&amp;quot;
+          ]
+          [ rect
+              [ customOnMouseDown 
+              , id &amp;quot;C&amp;quot;
+              , width &amp;quot;100&amp;quot;
+              , height &amp;quot;050&amp;quot;
+              , x ( toString pos.x )
+              , y ( toString pos.y )
+              , fill &amp;quot;#000&amp;quot;
+              , cursor &amp;quot;pointer&amp;quot;
+              ]
+              []
+          ]
+      ]
+
+customOnMouseDown : Html.Attribute Msg
+customOnMouseDown =
+  let
+    
+    decoder = 
+      Json.Decode.oneOf
+      [ Json.Decode.map 
+        Press 
+        ( Json.Decode.map2
+            Position 
+              ( Json.Decode.field &amp;quot;pageX&amp;quot; Json.Decode.int) 
+              ( Json.Decode.field &amp;quot;pageY&amp;quot;   Json.Decode.int) 
+        )
+      , Json.Decode.succeed (Press ( Position 500 500 ))
+      ]  
+      
+  in
+      
+    Html.Events.on &amp;quot;mousedown&amp;quot; decoder
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -&amp;gt; Sub Msg
+subscriptions model =
+  case model.drag of
+    Nothing -&amp;gt;
+      Sub.none
+
+    Just _ -&amp;gt;
+      Sub.batch [ Mouse.moves Move, Mouse.ups Release ]
+
+
+ -- HELPERS
+
+getPosition : Model -&amp;gt; Position
+getPosition {drag, pos} =
+  case drag of 
+    Nothing -&amp;gt;
+      pos
+
+    Just { startPos, currentPos } -&amp;gt;
+      Position
+      ( pos.x + currentPos.x - startPos.x )
+      ( pos.y + currentPos.y - startPos.y )&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This last example was fairly involved.  On one hand, I’m sure that there are some more ‘elmy’ ways to implement this code, so feedback is definately welcome. On the otherhand, It’s still very basic in some ways. For instance, it is possible to drag the object outside of the viewable area of the SVG node. If you do that and release the mouse you won’t be able to grab it again, so this should be prevented.  For my current project, I will need to manage several draggable SVG elements, but after digging in and learning enough about mouse events in Elm to write this post, I think I will be able to manage it.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 24 Jul 2017 14:33:54 +0200</pubDate>
+        <link>http://www.medding.me/elm/frontend/2017/07/24/elm-lang-and-mouse-events.html</link>
+        <guid isPermaLink="true">http://www.medding.me/elm/frontend/2017/07/24/elm-lang-and-mouse-events.html</guid>
+        
+        
+        <category>elm</category>
+        
+        <category>frontend</category>
+        
+      </item>
+    
+      <item>
+        <title>Golang Testing Impressions</title>
+        <description>&lt;h2 id=&quot;initial-impressions&quot;&gt;Initial Impressions&lt;/h2&gt;
+
+&lt;p&gt;I’ve been working on my first Go-based web app for about two weeks now.  The main reasons for trying Go are:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;People seem to like programming in it&lt;/li&gt;
+  &lt;li&gt;They can reach a good level of productivity in a short time&lt;/li&gt;
+  &lt;li&gt;It’s really fast compared to ruby.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I’m using the &lt;a href=&quot;http://revel.github.io/&quot;&gt;Revel&lt;/a&gt; framework and have created most of the user-management components (register, login, logout, etc).  It’s not crazy-fast progress, but I am still in the phase where a lot of time is spent figuring out how things work under the hood.  This post is about my impressions of testing in Go and the effects on productivity.&lt;/p&gt;
+
+&lt;p&gt;My ruby/rails skills are moderate at best, but I did try to keep a solid level of test coverage as a best practice kind-of-a-thing.  On the positive side, as my code base grew, it gave me confidence that what I was currently doing wasn’t unintentionally breaking something else. On the negative side, I spent probably as much time writing and debugging tests in Rspec and Capybara as I did writing the actual code they were testing.  It’s like writing two programs at once - each one in a different language. Since I’m not great in either that means lot’s of time googling.&lt;/p&gt;
+
+&lt;p&gt;Achieving the same level of confidence in my Go code base seems to be less work.  First, the compiler catches tons of errors without writing any tests at all.  Since my level of test coverage is proportional to my confidence in the code, this means I can write fewer tests yet still have that warm fuzzy feeling that the action I’m implementing won’t cause my entire app to unravel. Less tests equals less code per feature equals higher productivity equals smile.&lt;/p&gt;
+
+&lt;p&gt;Go’s testing code base and patterns are relatively simple.  There is no DSL to learn. Tests are written in Go using only a handful of special methods and functions.  This definitely makes tests more verbose and less readable than the ruby counterparts, but I am able to learn these methods in much less time so although I spend more time typing I spend much less time googling during test creation.  This is a productivity win at my level, but I imagine an Rspec guru would have a different opinion.&lt;/p&gt;
+
+&lt;p&gt;Go compiles at the package level, so compiles happen very quickly - a few seconds at this stage of the project and running the tests, even with database calls, takes only a few seconds more.  All very fast compared to running tests in ruby, which takes much more time just to load the app.  To be fair, there are some nice tools like Zeus and Spring that pre-loaded your rails app thus eliminating the load-time issue, but running a significant test suite also takes tens of seconds.  So I’m very happy with the compile and test process in Go and Revel’s browser based test runner is nice too.  It is especially convenient given my current docker setup since it runs the tests in the container, where the Go environment is and not on the local host system.&lt;/p&gt;
+
+&lt;p&gt;Given that I have to write less tests, they are easier to write and they run fast, I find testing in Go easier than to ruby for a equivalent level of the warm-fuzzy factor.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 22 Sep 2014 06:09:02 +0200</pubDate>
+        <link>http://www.medding.me/golang/2014/09/22/golang-testing-impressions.html</link>
+        <guid isPermaLink="true">http://www.medding.me/golang/2014/09/22/golang-testing-impressions.html</guid>
+        
+        
+        <category>golang</category>
+        
+      </item>
+    
+      <item>
+        <title>Setting up a Docker environment for Golang development - Part 2</title>
+        <description>&lt;h2 id=&quot;docker-go-revel-and--postgresql&quot;&gt;Docker, Go, Revel and … Postgresql?&lt;/h2&gt;
+&lt;p&gt;In my &lt;a href=&quot;http://www.medding.me/blog/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-1/&quot;&gt;last post&lt;/a&gt; I described how I configured Docker and Fig for Go development on my Ubuntu VM.  I ended with a single Docker Container hosting the Go code and my project’s source code sitting in a volume that pointed to my local environment.  In this post I will show how I set up a second Container to host a Postgres instance and connected it to the Revel app.&lt;/p&gt;
+
+&lt;h2 id=&quot;a-new-container&quot;&gt;A new container&lt;/h2&gt;
+&lt;p&gt;It’s possible to host the app and the database in the same container, but this probably won’t be how it will be managed in production.  Instead we will use a seperate container for the database and configure it as if it were running on a seperate machine.  When it is time to deploy, we just set up Fig to deploy the database on one machine and the app server on another.  This should only require minor changes to our app to point it at the new IP address of the database server.&lt;/p&gt;
+
+&lt;p&gt;Create the new database Container with a few additional lines to the fig.yml file defined in the &lt;a href=&quot;http://www.medding.me/blog/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-1/&quot;&gt;last post&lt;/a&gt;:&lt;/p&gt;
+
+&lt;p&gt;fig.yml&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span class=&quot;l-Scalar-Plain&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;postgres&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;5432&lt;/span&gt;
+
+&lt;span class=&quot;l-Scalar-Plain&quot;&gt;web&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;.&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;volumes&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;/home/jon/goprojects/src/github.com/jmedding:/goprojects/src/github.com/jmedding&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;ports&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;9000:9000&amp;quot;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;#  command: revel new readingrocket&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;command&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;revel run github.com/jmedding/rr dev&lt;/span&gt;
+  &lt;span class=&quot;l-Scalar-Plain&quot;&gt;links&lt;/span&gt;&lt;span class=&quot;p-Indicator&quot;&gt;:&lt;/span&gt; 
+    &lt;span class=&quot;p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l-Scalar-Plain&quot;&gt;db&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I designated the Postgres image as ‘db’.  We will use Docker Hub’s &lt;a href=&quot;https://registry.hub.docker.com/_/postgres/&quot;&gt;standard Postgres image&lt;/a&gt;, which creates a user ‘postgres’ and a database ‘postgres’ for us.  The standard Postgres port, 5432, is exposed for the app to connect to.  If the app’s container is running, then from a seperate terminal run &lt;code&gt;fig stop&lt;/code&gt;. Now build and launch the two containers with &lt;code&gt;fig build&lt;/code&gt; and then &lt;code&gt;fig up&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;hello-is-anyone-there&quot;&gt;Hello, is anyone there?&lt;/h2&gt;
+&lt;p&gt;Creating the database image was easy, but getting my app connected took a bit more effort.  The good news is, once you understand how things work it’s also very easy to set up.  Before jumping right into setting up the Revel app lets make sure the database and image are reachable from the ubuntu host. To do this we can use the standard &lt;code&gt;Docker run&lt;/code&gt; command:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;docker run -it --link my_revel_project_db_1:postgres --rm postgres sh -c &#39;exec psql -h &quot;$POSTGRES_PORT_5432_TCP_ADDR&quot; -p &quot;$POSTGRES_PORT_5432_TCP_PORT&quot; -U postgres&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you can see why I don’t want to be manipulating Docker Containers directly from the command line. Let’s brake this command down into understandable parts.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;docker run -it&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This part will run the container in an interactive shell.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;--link my_revel_project_db_1:postgres&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Link to a container named my_revel_project_db_1 and give it the alias ‘postgres’&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;--rm&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Automatically remove the container on exit.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;postgres sh -c &#39;exec psql -h &quot;$POSTGRES_PORT_5432_TCP_ADDR&quot; -p &quot;$POSTGRES_PORT_5432_TCP_PORT&quot; -U postgres&#39;&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;This is the command that will be exeuted in the Container.  The command will be run as the ‘postgres’ user and it will execute the psql command with the host, port and user options set.&lt;/p&gt;
+
+&lt;p&gt;To find out what the container is named, run &lt;code&gt;fig ps&lt;/code&gt; from the command line. The ouput will be something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;Starting new HTTP connection (1): localhost
+Name                Command               State        Ports      
+my_revel_project_db_1    postgres                         Up      49160-&amp;gt;5432/tcp 
+my_revel_project_web_1   revel run github.com/jmedd ...   Up      9000-&amp;gt;9000/tcp `
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This gives you the name of the container with the database needed in the first part of the command.&lt;/p&gt;
+
+&lt;p&gt;This should dump you into a psql session on the db Container.  Run &lt;code&gt;\d&lt;/code&gt; to see a list of databases. It should be emply.  The &lt;code&gt;\l&lt;/code&gt; command will list all tables in a database.  &lt;code&gt;\q&lt;/code&gt; will end the session and put you back in your local shell. If this doesn’t work you need to fix it before attempting anything in your app.&lt;/p&gt;
+
+&lt;h2 id=&quot;go-database-connections&quot;&gt;Go Database Connections&lt;/h2&gt;
+&lt;p&gt;Revel does some database configuration for you in the db module, but I first wanted to use the standard Go packages as this is the most straight forward way to establish and test a connection.  This seems like a great place for one of Revel’s application tests. The nice thing about these is that you can run them from a browser on your local environment (no command line wizardry needed). Here is the test that I created. Don’t forget to import the database packages. The ‘pq’ package seems to be the default choice for Postgres databases.&lt;/p&gt;
+
+&lt;p&gt;“apptest.go”&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-go&quot; data-lang=&quot;go&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;tests&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/revel/revel&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;database/sql&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/lib/pq&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AppTest&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;TestSuite&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Before&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Set up&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TestDBConnections&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;postgres&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;user=postgres dbname=postgres sslmode=disable host=db_1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;defer&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Assert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;CREATE TABLE products (product_no integer, name text, price numeric);&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Assert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;DROP TABLE products;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;Tear down&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;To be honest, the &lt;code&gt;host=db_1&lt;/code&gt; was a leap of faith. This was the value used in the Rails demo on the Fig website, but it does the trick, even if I’m not sure why.  I also need to figure out how to set up SSL, as it is enabled by defaul in the sql package, but doesn’t work with my setup - that sounds like a future post.  Now, navigate your browser to the &lt;a href=&quot;http://localhost:9000/@tests&quot;&gt;test runner&lt;/a&gt; and run the test.  It should work.  If not, it’s time to debug.  I found that looking into Revel’s source code and digging into the database/sql docs very helpful.  Now that we know we can connect to the database in the application, lets try to configure the Revel project to connect properly.  The file db.go, located in Revel’s db module has the following code:&lt;/p&gt;
+
+&lt;p&gt;revel/modules/db/app/db.go:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-go&quot; data-lang=&quot;go&quot;&gt;&lt;span class=&quot;kn&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;
+
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;database/sql&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/revel/revel&amp;quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;Db&lt;/span&gt;     &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DB&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;Driver&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;Spec&lt;/span&gt;   &lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Read configuration.&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;bool&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;db.driver&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ERROR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Fatal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;No db.driver found.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Config&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;db.spec&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;found&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ERROR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Fatal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;No db.spec found.&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;// Open a connection.&lt;/span&gt;
+  &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;error&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;Db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;sql&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Spec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;revel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ERROR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Fatal&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This is where the connection is made and assigned to Db.  We can import this package into our test suite and use the &lt;code&gt;Init()&lt;/code&gt; function to make the connections.&lt;/p&gt;
+
+&lt;p&gt;apptest.go:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-go&quot; data-lang=&quot;go&quot;&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/revel/revel&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/revel/revel/modules/db/app&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;&amp;quot;database/sql&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;github.com/lib/pq&amp;quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;AppTest&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TestRevelDBConnection&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(){&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;// Connect to database via Revel&amp;#39;s db package. Will set db.Db as the connection&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;//Check that it works&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;CREATE TABLE products (product_no integer, name text, price numeric);&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;t&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Assert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;_&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Query&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;DROP TABLE products;&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Of course, this doesn’t work until we set the &lt;code&gt;db.drvier&lt;/code&gt; and &lt;code&gt;db.spec&lt;/code&gt; variables in Revel’s configuration file. Use the values that worked in the first test to define the config values.&lt;/p&gt;
+
+&lt;p&gt;go appconf.go:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-go&quot; data-lang=&quot;go&quot;&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;github&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;com&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;lib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;/&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pq&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;driver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;postgres&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;db&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;spec&lt;/span&gt;   &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;user=postgres dbname=postgres sslmode=disable host=db_1&amp;quot;&lt;/span&gt;
+
+&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;You should be able to go to the test runner page and run the test.  If the test takes a long time to run the first time you try, that’s because Go is downloading the new packages.  To prevent this, add the &lt;code&gt;RUN go get &amp;lt;package&amp;gt;&lt;/code&gt; in the docker file and rebuild the container.&lt;/p&gt;
+
+&lt;p&gt;At this point you have your Revel app talking to the Postgres database that is running in a completely seperate container from the app itself.  Honestly, this is as far as I’ve gotten in my project.  The next steps are to look into using &lt;a href=&quot;https://github.com/coopernurse/gorp&quot;&gt;Gorp&lt;/a&gt; to simplify some of the sql but I will definately come back with a post for anything useful I figure out along the way.&lt;/p&gt;
+
+&lt;p&gt;Code on.&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 06 Sep 2014 08:09:11 +0200</pubDate>
+        <link>http://www.medding.me/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-2.html</link>
+        <guid isPermaLink="true">http://www.medding.me/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-2.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Setting up a Docker environment for Golang development - Part 1</title>
+        <description>&lt;h2 id=&quot;i-know---crazy-right&quot;&gt;I know - crazy, right?&lt;/h2&gt;
+
+&lt;p&gt;The goal is to set up my development environment to be lite-weight, and easy to re-create from a fresh install.  Why?  Because I do most of my development in Ubuntu, which is running in a Virtualbox VM on my crappy Windows work laptop.  The laptop has 4GB of memory and a low-end dual-core CPU with hyperthreading, so 4 virtual cores.  In the past I just worked directly in the ubuntu VM, depending on Github to save my work from oblivion in the event that the VM became corrupt (happens much less these days, I’m happy to report, but the scars are burned deep into my brain) or the IT department decides to reinstall windows because the printer driver stops working. If this happened, I had several hours of quality time with google and the command line ahead of me before I was productive again. Furthermore because my ‘play time’ is limitted, this was usually spread out over several days.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Pro Tip: If you really want to make your wife angry, try sitting next to her on the couch while watching TV after the kids have goine to bed and completey ignore her while you google websites with an oddly large amount of text and do weird things on the command line (!!) that generate massive amounts of unreadable text output.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;My solution to this puzzle is to run Docker containers for each of my projects.  This was I don’t overload the Ubuntu VM with multiple databases, multiple versions of Ruby, etc.  Added benefits are that I can upload the Containers to Docker and then use them on my home PC, or next ubuntu VM. Extra added benefits are that I don’t need to have so many apps and libraries directly loaded onto the base Ubuntu system, whick makes reinstalling everything easier. In fact I automated that part with Thoughbot’s &lt;a href=&quot;https://github.com/thoughtbot/laptop&quot;&gt;Laptop&lt;/a&gt; library.  In this post, I want to explain how I set up my Docker containers for developing a Golang project using the &lt;a href=&quot;http://revel.github.io/&quot;&gt;Revel&lt;/a&gt; framework.&lt;/p&gt;
+
+&lt;h2 id=&quot;lets-go&quot;&gt;Let’s Go!&lt;/h2&gt;
+
+&lt;p&gt;The folks working on Go have been very busy lately and new versions seem to be coming out every few months.  If I start a new project, I definately want to go with the latest version, but I don’t want to be forced to switch in mid-project.  With Docker, this is no problem.  Just put Go in the Docker container for that project.  New projects will get the latest version, but older projects can stay on their version with no conflict.  Upgrading Go versions is also significantly less risky.  Just edit the docker file to use the newer version and try it. If it blows up, just revert to the previous versoin and rebuild the container and boom! - I’ll be right back in the happy place with everything working.  The same principle applies to the Go libraries that I will use (which are often unversioned…).  This means tĥat the Go base libraries and any additional libraries I use should be in Docker, but what about the source code for my project?  I don’t want this in Docker, because I want to edit in my Ubuntu VM, but I don’t have Go installed in Ubuntu so I can’t build anything or use the Go Tools. The answer is only mildly complicated. Create a volume in the Docker container that maps the base directory for my project’s source code to the same location (relative to the GOPATH) in the Container. With this setup, every time I save a Go file in my editor it is immeadiately updated in the Container. The same works in reverse. If I run Go’s formatter, I whave to do it in Docker, but the files in the base Ubuntu VM will be changed. Perfect, that’s exactly what I am looking for.  The downside is that I have to use &lt;code&gt;Docker run&lt;/code&gt; to run these commands in the Container, which would be quit boring, but fortunately there are some pretty good solutions.&lt;/p&gt;
+
+&lt;p&gt;Here is  my Docker file:&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get install -y build-essential mercurial git subversion wget curl
+
+# env vars
+
+ENV GOPATH /goprojects
+ENV PATH /goprojects/bin:/usr/local/go/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+# go 1.3 tarball
+RUN wget -qO- http://golang.org/dl/go1.3.1.linux-amd64.tar.gz | tar -C /usr/local -xzf -
+
+# GOPATH
+RUN mkdir -p /goprojects
+RUN mkdir -p /goprojects/bin
+RUN mkdir -p /goprojects/pkg
+RUN mkdir -p /goprojects/src
+RUN mkdir -p /goprojects/src/github.com
+RUN mkdir -p /goprojects/src/github.com/jmedding  # I will attach my source code volume here
+
+#Install Revel framework
+RUN go get github.com/revel/revel
+RUN go get github.com/revel/cmd/revel
+
+WORKDIR /goprojects/src/github.com/jmedding&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I install the Revel framework in the Dockerfile, in fact when ever you add a new package to your source code, you should install it via the Dockerfile as well.  Go will get imported packages for you when you build your project, but it will be lost when you stop the container and it will have to be retrieved again when you spin the Container back up.&lt;/p&gt;
+
+&lt;h2 id=&quot;fig-up-to-the-rescue&quot;&gt;Fig up to the rescue&lt;/h2&gt;
+
+&lt;p&gt;I mentioned earlier that setting up and working in the Docker container will require some command line gymnastics - not my favorite stuff. That’s where Fig comes in.  Fig is a simple tool that automates starting up and configuring all of a projects containers.  Fig also provides a simple command line interface to execute commands in the Container when needed.  After installing Fig locally the next step is to set up the fig.yml file, which Fig uses to spin up the Docker Containers. Oh, by the way, Fig was recently aquired by Docker, so it should continue to maintained in the future.  Here is my fig.yml&lt;/p&gt;
+
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;web:
+  build: .
+  volumes:
+    - /home/jon/goprojects/src/github.com/jmedding:/goprojects/src/github.com/jmedding
+  ports:
+    - &amp;quot;9000:9000&amp;quot;
+  #command: revel run github.com/jmedding/my_revel_project dev&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;This fig.yml file will create one container -‘web’, for my Revel project.&lt;/li&gt;
+  &lt;li&gt;The build command will look in the current working directory for the Dockerfile, which is a temprory project folder in my local GOPATH 
+&lt;code&gt;$GOPATH/src/github.com/jmedding/temp_project&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Fig will set up the volume to my source code&lt;/li&gt;
+  &lt;li&gt;Expose the Container’s port 9000 as port 9000 on the host.&lt;/li&gt;
+  &lt;li&gt;The command directive, that will start my project in the devlopment environment is commented out, because I haven’t created the project yet&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Next run &lt;code&gt;fig build&lt;/code&gt; and then &lt;code&gt;fig up&lt;/code&gt; to start the container, which has Go installed and the required Go directory structure set up in the GOPATH.&lt;/p&gt;
+
+&lt;h2 id=&quot;revelation&quot;&gt;Revelation&lt;/h2&gt;
+&lt;p&gt;We are now ready to start developing in ernest.  The first step is to use Revel’s CLI tools to generate a new project.  We want the source code on the local file system, but we don’t have Go installed locally (or Revel for that matter), only in the Container.  It’s time to break out Fig’s &lt;code&gt;run&lt;/code&gt; command.&lt;/p&gt;
+
+&lt;p&gt;Run the following from the temporary project directory that contains your fig.yml and Dockerfile files:
+&lt;code&gt;fig run web revel new github.com/jmedding/my_revel_project&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Fig will run the &lt;code&gt;revel new github.com/jmedding/my_revel_project&lt;/code&gt; command in the Container designated as ‘web’ in fig.yml.  The file path/name used in the Revel’s &lt;code&gt;new&lt;/code&gt; command is always relative to the GOPATH so you have to include the necessary sub-directories to ensure the project is created in the right location.  At this point your should be able to point your browser to localhost:9000 and see the default web page being showed.  Before starting to create the next Facetwoogle there are a few more tasks to do though.  First, move the fig.yml and the Dockerfile into you new project’s root directory.  At this point, you can delete the temporary project directory - you don’t need it any more for this project. Finally, create a new git Repo and make your first commit and then off you go.&lt;/p&gt;
+
+&lt;p&gt;In my next post, I’ll show how to create a new Container for Postgres and wire it up to your application.&lt;/p&gt;
+
+&lt;p&gt;Code on.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 06 Sep 2014 08:08:18 +0200</pubDate>
+        <link>http://www.medding.me/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-1.html</link>
+        <guid isPermaLink="true">http://www.medding.me/2014/09/06/setting-up-a-docker-environment-for-golang-development-part-1.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>An idea for a project</title>
+        <description>&lt;p&gt;I’ve been working pretty hard at the day job and the vacation activities have also kept me busy most of July and August, so it’s been quite on the project front around here, but lately I’ve been getting the itch. Initially, I just wanted to do a simple project to try &lt;a href=&quot;https://muut.com/riotjs/&quot;&gt;Riot.js&lt;/a&gt;.  Riot.js is the minimalist framework - depending on me to create a good javascript program architecture (modular programs) rather than learning a complex framework.  I’ve done some Ember projects in the past, but it felt like I was a contortionist, trying to fit my code into the expected patterns. Angular is less structured, but there are a ton of new angular-specific concepts and patterns to learn and honestly, I just felt lost.  I have no problem to dig in and figure it out (that’s the fun part, right?) but at this point in my programming evolution I should be mastering the fundamentals, not another framework’s abstractions.  Riot.js is the perfect fit for me at this time.&lt;/p&gt;
+
+&lt;p&gt;So, Riot.js - ok.  A moderately simple app, just to get the feel should be right, but of course I’ll need a backend API.  Rails would be fine, but I’ve been thinking about alternatives. CouchDB looks really interesting, but in the end, Golang has won my attention.  I like that you get good performance from a small VPS due to its concurrency model, but without the callback mess that comes with Node based back-ends (I haven’t tried a Node project yet, but that’s my impression so far…).  For Golang the common wisdon is you should just use the standard packages, or perhapy use &lt;a href=&quot;http://www.gorillatoolkit.org/&quot;&gt;Gorilla&lt;/a&gt;, but I don’t want to spend all my time building from scratch. I want to focus on getting better at Javascript, not solving backend problems, so I chose the &lt;a href=&quot;http://revel.github.io/&quot;&gt;Revel&lt;/a&gt; framework.  It has decent documentation and seems like it will do what I need.  Everyone says how quickly you can get up to speed with Golang and I’m interested to see how productive I can be.&lt;/p&gt;
+
+&lt;p&gt;So the app stack is decided, but what about the dev environment?  I develop on a Ubuntu image running as a Virtualbox VM on a Windows laptop.  I seem to end up recreating the VM every so often, so I wanted to try and automate the setup process from a fresh install.  For that, I chose the &lt;a href=&quot;https://github.com/thoughtbot/laptop&quot;&gt;Laptop&lt;/a&gt; library.   This is basically a shell script on steroids. It’s modular, configurable and idempotent.  It’s set up to create a Rails dev machine, so I removed a few things and added some others.  I figured out how to get SublimeText installed and link the plugin and preference files to a shared location on Dropbox.  This  is great as I have all the snippets and plugings installed automatically and if I add a new snippet on my laptop, I will have it the next day on my home PC as well.&lt;/p&gt;
+
+&lt;p&gt;Finally, just to make it intersting, I wanted to clean up my laptop dev environment. The VM has limitted memory and after a while I typically end up with MYSQL, Postgresql, and several other heavy apps all running in the background, consuming precious memory.  To avoid this, I want to use Docker on the VM, so that only the applications I need are running at any given time.  And if you are going to use Docker for development, you may as well use &lt;a href=&quot;http://www.fig.sh/&quot;&gt;Fig&lt;/a&gt; too.  It makes setting up everything at the start of a session go very quickly.&lt;/p&gt;
+
+&lt;p&gt;At this point, I’ve got the Laptop installation script working well and Fig and Docker are set up. I have used them to create my first Revel app, although it’s just the auto-generated one for now, but he, it works.  My setup is to install GO and the Revel package files in the Docker container, but the source code lives in a volume on my local file system. I use Fig to run individual commands like &lt;code&gt;revel new&lt;/code&gt; from outside the container.  Getting Fig/Docker working with Go for development was a little tricky, but in the end not complicated. It just took some time to wrap my head around the separation of Container and local file systems and what I think is a &lt;a href=&quot;https://github.com/docker/fig/issues/461&quot;&gt;bug&lt;/a&gt; didn’t make it any easier.  I’ve started to draft the backend API endpoints, but I think it probably makes sense to get the Front end bit working so that I build the API I need.  This means its time to think about designing a good front end architecture a-la Riot.js.  I’ll be back to let you know how it goes.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 01 Sep 2014 22:27:50 +0200</pubDate>
+        <link>http://www.medding.me/2014/09/01/an-idea-for-a-project.html</link>
+        <guid isPermaLink="true">http://www.medding.me/2014/09/01/an-idea-for-a-project.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Welcome</title>
+        <description>&lt;p&gt;Hmmmm, first post.  Let’s start with the name. I’m a husband and father of two.  All my family members are extroverts who get quickly offended if you pay more attention to the computer than to them.  I’m an introvert who finds constant interaction exhausting, so by the end of the evening, after the kids go to bed, I’m pretty much reduced to a drooling couch potato that can’t wait to crawl into bed, read a few pages of my current book and pass out.  Unlike my family, I don’t actually need that much sleep though, so I tend to wake up quite early.  It turns out this is a great time to work on things that require focus and concentration.&lt;/p&gt;
+
+&lt;p&gt;Like programming.&lt;/p&gt;
+
+&lt;p&gt;I set a goal for myself to improve my writing.  This is a terrible goal, because it’s vague, immeasurable and has no deadline, but writing seems to be one of those things that you can improve just be doing a lot of it (I read that on the internet, so it must be true) - hence this blog.&lt;/p&gt;
+
+&lt;p&gt;Most of my posts will be short since my time is constrained, but there may be a few longer ones if I come across the right topics.  I’m currently intersted in programming (rails, javascript and a little go) and entrepreneurship.  I would very much like to generate some income from my programming activities.  I also think big-data will be hot in the next 2 to 10 years so I’m investingating machine learning and data visualization as well.&lt;/p&gt;
+
+&lt;p&gt;Ok, I’m going to bed. Let’s see what the morning brings.&lt;/p&gt;
+
+&lt;p&gt;Jon&lt;/p&gt;
+</description>
+        <pubDate>Fri, 21 Feb 2014 21:48:19 +0100</pubDate>
+        <link>http://www.medding.me/2014/02/21/welcome.html</link>
+        <guid isPermaLink="true">http://www.medding.me/2014/02/21/welcome.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
